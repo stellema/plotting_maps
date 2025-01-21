@@ -394,6 +394,7 @@ def plot_data(regions=None,
               ylim=(-43.5, -7.5),
               cmap=cm.Greens,
               cbar_extend="both",
+              norm=None,
               ticks=None,
               tick_interval=1,
               tick_labels=None,
@@ -460,6 +461,11 @@ def plot_data(regions=None,
         eg "both" changes the ends of the colorbar to arrows to indicate that
         values are possible outside the scale shown.
         If contour or contourf is True, then cbar_extend will be overridden to "none".
+    
+    norm: matplotlib.colors.Normalize, optional
+        Normalisation for the colormap and plotted contours according to ticks.
+        If None, then the normalisation will be linear and auto-scaled.
+        Default is None.
 
     ticks: list or arraylike
         Define the ticks on the colorbar. Define any number of intervals. 
@@ -570,9 +576,7 @@ def plot_data(regions=None,
             agcd = xr.open_dataset(f"{directory}/mask-fraction_agcd_v1-0-2_precip_weight_1960_2022.nc").fraction
             data = data.where(agcd>=0.8)
         
-        if ticks is None:
-            norm = None
-        else:
+        if ticks is not None:
             # if ticks are labelled or if there is one more tick than tick labels,
             # do the usual normalisation
             if tick_labels is None or (len(tick_labels) == len(ticks) - 1):
@@ -1155,6 +1159,7 @@ def plot_acs_hazard(
     cmap=cm.Greens,
     cmap_bad="lightgrey",
     cbar_extend="both",
+    norm=None,
     ticks=None,
     tick_interval=1,
     tick_labels=None,
@@ -1275,6 +1280,11 @@ def plot_acs_hazard(
         eg "both" changes the ends of the colorbar to arrows to indicate that
         values are possible outside the scale show.
         If contour or contourf is True, then cbar_extend will be overridden to "none".
+    
+    norm: matplotlib.colors.Normalize, optional
+        Normalisation for the colormap and plotted contours according to ticks.
+        If None, then the normalisation will be linear and auto-scaled.
+        Default is None.
 
     ticks: list or arraylike
         Define the ticks on the colorbar. Define any number of intervals. 
@@ -1426,6 +1436,7 @@ def plot_acs_hazard(
                                             ylim=ylim,
                                             cmap=cmap,
                                             cbar_extend=cbar_extend,
+                                            norm=norm,
                                             ticks=ticks,
                                             tick_labels=tick_labels,
                                             contourf=contourf,
@@ -1511,7 +1522,7 @@ def plot_acs_hazard(
         os.makedirs(os.path.dirname(outfile), exist_ok=True)
 
     if savefig:
-        plt.savefig(outfile, dpi=300,)
+        plt.savefig(outfile, dpi=300, bbox_inches="tight", bbox_extra_artists=(ax111,))
     return fig, ax
 
 
@@ -1547,6 +1558,7 @@ def plot_acs_hazard_3pp(
     cmap=cm.Greens,
     cmap_bad="lightgrey",
     cbar_extend="both",
+    norm=None,
     ticks=None,
     tick_interval=1,
     tick_labels=None,
@@ -1717,7 +1729,12 @@ def plot_acs_hazard_3pp(
         eg "both" changes the ends of the colorbar to arrows to indicate that
         values are possible outside the scale show.
         If contour or contourf is True, then cbar_extend will be overridden to "none".
-        
+
+    norm: matplotlib.colors.Normalize, optional
+        Normalisation for the colormap and plotted contours according to ticks.
+        If None, then the normalisation will be linear and auto-scaled.
+        Default is None.
+
     ticks: list or arraylike
         Define the ticks on the colorbar. Define any number of intervals. 
         This will make the color for each interval one discrete color, 
@@ -1881,7 +1898,7 @@ def plot_acs_hazard_3pp(
                             sharey=True, sharex=True,
                             figsize=figsize, 
                             layout="constrained",
-                            subplot_kw={'projection': projection, "frame_on":False},)
+                            subplot_kw={'projection': projection},)
 
     cmap.set_bad(cmap_bad)
     
@@ -1904,6 +1921,7 @@ def plot_acs_hazard_3pp(
                                               ylim=ylim,
                                               cmap=cmap,
                                               cbar_extend=cbar_extend,
+                                                norm=norm,
                                               ticks=ticks,
                                               tick_labels=tick_labels,
                                               contourf=contourf,
@@ -1959,7 +1977,7 @@ def plot_acs_hazard_3pp(
 
 
     # plot border and annotations -----------------
-    ax111 = fig.add_axes([0.01,0.01,0.98,0.98], xticks=[], yticks=[]) #(left, bottom, width, height)
+    ax111 = fig.add_axes([0.01,0.01,0.98,0.98], xticks=[], yticks=[], in_layout=True) #(left, bottom, width, height)
     
     ax111 = plot_titles(title=title,
                         date_range = date_range, 
@@ -1984,7 +2002,7 @@ def plot_acs_hazard_3pp(
         os.makedirs(os.path.dirname(outfile), exist_ok=True)
 
     if savefig:
-        plt.savefig(outfile, dpi=300,)
+        plt.savefig(outfile, dpi=300)
     return fig, ax
 
 def plot_acs_hazard_4pp(
@@ -2202,6 +2220,11 @@ def plot_acs_hazard_4pp(
         values are possible outside the scale show.
         If contour or contourf is True, then cbar_extend will be overridden to "none".
         Default is "both"
+
+    norm: matplotlib.colors.Normalize, optional
+        Normalisation for the colormap and plotted contours according to ticks.
+        If None, then the normalisation will be linear and auto-scaled.
+        Default is None.
         
     ticks: list or arraylike
         Define the ticks on the colorbar. Define any number of intervals. 
@@ -2538,6 +2561,7 @@ def plot_acs_hazard_1plus3(
                 cmap=cm.Greens,
                 cmap_bad="lightgrey",
                 cbar_extend="both",
+                norm=None,
                 ticks=None,
                 tick_interval=1,
                 tick_labels=None,
@@ -2757,7 +2781,12 @@ def plot_acs_hazard_1plus3(
         values are possible outside the scale show.
         If contour or contourf is True, then cbar_extend will be overridden to "none".
         Default is "both"
-        
+
+    norm: matplotlib.colors.Normalize, optional
+        Normalisation for the colormap and plotted contours according to ticks.
+        If None, then the normalisation will be linear and auto-scaled.
+        Default is None.
+
     ticks: list or arraylike
         Define the ticks on the colorbar. Define any number of intervals. 
         This will make the color for each interval one discrete color, 
@@ -2968,6 +2997,7 @@ def plot_acs_hazard_1plus3(
                                              ylim=ylim,
                                              cmap=gwl12_cmap,
                                              cbar_extend=gwl12_cbar_extend,
+                                             norm=norm,
                                              ticks=gwl12_ticks,
                                              tick_labels=gwl12_tick_labels,
                                              contourf=contourf,
@@ -3117,6 +3147,7 @@ def plot_acs_hazard_2pp(
     cmap=cm.Greens,
     cmap_bad="lightgrey",
     cbar_extend="both",
+    norm=None,
     ticks=None,
     tick_interval=1,
     tick_labels=None,
@@ -3220,6 +3251,7 @@ def plot_acs_hazard_2pp(
                                               ylim=ylim,
                                               cmap=cmap,
                                               cbar_extend=cbar_extend,
+                                                norm=norm,
                                               ticks=ticks,
                                               tick_labels=tick_labels,
                                               contourf=contourf,
@@ -3330,6 +3362,7 @@ def plot_acs_hazard_multi(
                 cmap=cm.Greens,
                 cmap_bad="lightgrey",
                 cbar_extend="both",
+                norm=None,
                 ticks=None,
                 tick_interval=1,
                 tick_labels=None,
@@ -3475,7 +3508,12 @@ def plot_acs_hazard_multi(
         values are possible outside the scale show.
         If contour or contourf is True, then cbar_extend will be overridden to "none".
         Default is "both"
-        
+
+    norm: matplotlib.colors.Normalize, optional
+        Normalisation for the colormap and plotted contours according to ticks.
+        If None, then the normalisation will be linear and auto-scaled.
+        Default is None.
+
     ticks: list or arraylike
         Define the ticks on the colorbar. Define any number of intervals. 
         This will make the color for each interval one discrete color, 
@@ -3664,6 +3702,7 @@ def plot_acs_hazard_multi(
                                               ylim=ylim,
                                               cmap=cmap,
                                               cbar_extend=cbar_extend,
+                                                norm=norm,
                                               ticks=ticks,
                                               tick_labels=tick_labels,
                                               contourf=contourf,
