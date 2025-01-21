@@ -1054,7 +1054,7 @@ def plot_titles(title="title",
         s=f"{date_range}",
         fontsize=12,
         horizontalalignment=title_ha,
-        verticalalignment="top",
+        verticalalignment="bottom",
         transform=ax.transAxes,
         zorder=10,
         wrap=True,
@@ -1078,11 +1078,11 @@ def plot_titles(title="title",
         string = f"\u00A9 Commonwealth of Australia {datetime.datetime.now().year}, Australian Climate Service"
     ax.text(
         x=0.02,
-        y=0.01,
+        y=-0.01,
         s=string,
         fontsize=8,
         transform=ax.transAxes,
-        verticalalignment="bottom",
+        verticalalignment="top",
         zorder=10,
         wrap=True,
     )
@@ -1491,10 +1491,10 @@ def plot_acs_hazard(
     # Annotations and titles ---------------------
 
     #plot border and annotations
-    ax111 = fig.add_axes([0.,0.,1,1], xticks=[], yticks=[]) #(left, bottom, width, height)
+    ax111 = fig.add_axes([0.,0.,1,1], xticks=[], yticks=[], in_layout=True) #(left, bottom, width, height)
 
     # text annotation xy locations for 1-panel plot
-    text_xy_1pp = {"title": (0.03, 0.12),  
+    text_xy_1pp = {"title": (0.03, 0.11),  
                    "date_range": (0.03, 0.09),
                    "watermark": (0.4, 0.5),}
     
