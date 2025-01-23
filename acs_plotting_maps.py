@@ -1042,7 +1042,7 @@ def plot_titles(title="title",
         fontsize=14,
         weight="bold",
         horizontalalignment=title_ha,
-        verticalalignment="baseline",
+        verticalalignment="bottom",
         transform=ax.transAxes,
         zorder=10,
         wrap=True,
@@ -1054,7 +1054,7 @@ def plot_titles(title="title",
         s=f"{date_range}",
         fontsize=12,
         horizontalalignment=title_ha,
-        verticalalignment="bottom",
+        verticalalignment="top",
         transform=ax.transAxes,
         zorder=10,
         wrap=True,
@@ -1068,6 +1068,7 @@ def plot_titles(title="title",
             s=f"Base period: {baseline}",
             fontsize=8,
             verticalalignment="baseline",
+            ha='left',
             transform=ax.transAxes,
             zorder=10,
         )
@@ -1077,11 +1078,12 @@ def plot_titles(title="title",
     else:
         string = f"\u00A9 Commonwealth of Australia {datetime.datetime.now().year}, Australian Climate Service"
     ax.text(
-        x=0.02,
+        x=0.01,
         y=-0.01,
         s=string,
         fontsize=8,
         transform=ax.transAxes,
+        ha='left',
         verticalalignment="top",
         zorder=10,
         wrap=True,
@@ -1494,8 +1496,8 @@ def plot_acs_hazard(
     ax111 = fig.add_axes([0.,0.,1,1], xticks=[], yticks=[], in_layout=True) #(left, bottom, width, height)
 
     # text annotation xy locations for 1-panel plot
-    text_xy_1pp = {"title": (0.03, 0.11),  
-                   "date_range": (0.03, 0.09),
+    text_xy_1pp = {"title": (0.01, 0.11),  
+                   "date_range": (0.01, 0.09),
                    "watermark": (0.4, 0.5),}
     
     ax111 = plot_titles(title=title,
@@ -1522,7 +1524,7 @@ def plot_acs_hazard(
         os.makedirs(os.path.dirname(outfile), exist_ok=True)
 
     if savefig:
-        plt.savefig(outfile, dpi=300, bbox_inches="tight", bbox_extra_artists=(ax111,))
+        plt.savefig(outfile, dpi=300)
     return fig, ax
 
 
