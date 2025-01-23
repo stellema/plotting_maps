@@ -1131,7 +1131,7 @@ def plot_titles(
             y=0.01,
             s=f"Base period: {baseline}",
             fontsize=8,
-            verticalalignment="baseline",
+            verticalalignment="bottom",
             ha="left",
             transform=ax.transAxes,
             zorder=10,
@@ -1592,7 +1592,7 @@ def plot_acs_hazard(
         os.makedirs(os.path.dirname(outfile), exist_ok=True)
 
     if savefig:
-        plt.savefig(outfile, dpi=300)
+        plt.savefig(outfile, dpi=300, bbox_extra_artists=(ax111,), bbox_inches='tight')
     return fig, ax
 
 
